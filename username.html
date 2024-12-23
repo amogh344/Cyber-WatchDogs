@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Enter USN</title>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+
+    <!-- Computer Frame -->
+    <div class="computer-frame">
+        <form id="usnForm" onsubmit="return validateUSN();">
+            <h2>Enter Your USN</h2>
+            <input type="text" id="usn">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <!-- Particles.js and Validation Script -->
+    <script src="js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', 'particles-config.json', function () {
+            console.log('Particles.js loaded successfully');
+        });
+
+        function validateUSN() {
+            const usn = document.getElementById("usn").value;
+            const usnPattern = /^[1-9][A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{3}$/;
+
+            if (!usnPattern.test(usn)) {
+                alert("Invalid USN format! Please use the format: 1AY--IS---.");
+                return false;
+            }
+
+            // Store username in localStorage
+            localStorage.setItem('username', usn);
+
+            window.location.href = "attack.html"; // Navigate to the second page
+            return false; // Prevent form submission
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS("particles-js", {
+          "particles": {
+            "number": {
+              "value": 80,
+              "density": { "enable": true, "value_area": 800 }
+            },
+            "color": { "value": "#00ffff" },
+            "shape": { "type": "circle" },
+            "opacity": { "value": 0.5 },
+            "size": { "value": 3 },
+            "line_linked": {
+              "enable": true,
+              "distance": 150,
+              "color": "#00ffff",
+              "opacity": 0.4,
+              "width": 1
+            },
+            "move": { "enable": true, "speed": 3 }
+          },
+          "interactivity": {
+            "events": {
+              "onhover": { "enable": true, "mode": "grab" },
+              "onclick": { "enable": true, "mode": "push" }
+            }
+          }
+        });
+      </script>
+</body>
+</html>

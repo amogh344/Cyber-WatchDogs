@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Select Attack</title>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+
+    <!-- Computer Frame -->
+    <div class="computer-frame">
+        <form id="attackForm">
+            <h2>Select the Type of Attack</h2>
+            <select id="attackType" required>
+                <option value="" disabled selected>Select attack type</option>
+                <option value="portScanning">Port Scanning</option>
+                <option value="tcpFlood">TCP Flood Attack</option>
+                <option value="udpFlood">UDP Flood Attack</option>
+                <option value="bruteForce">Brute Force Attack</option>
+                <option value="smurfAttack">Smurf Attack</option>
+                <option value="portServiceAttack">Port and Services Attack</option>
+            </select>
+            <button type="button" onclick="submitAttack()">Execute</button>
+        </form>
+    </div>
+
+    <script src="js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', 'particles-config.json', function () {
+            console.log('Particles.js loaded successfully');
+        });
+
+        function submitAttack() {
+            const attackType = document.getElementById('attackType').value;
+            const username = localStorage.getItem('username');  // Retrieve stored username from localStorage
+
+            if (!username || !attackType) {
+                alert("Please fill in all the fields.");
+                return;
+            }
+
+            // Send the username and attack type to the server
+            fetch('/log-attack', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: username,
+                    attackType: attackType,
+                    timestamp: new Date().toISOString()
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Attacked successfully!');
+                console.log(data);
+            })
+            .catch((error) => {
+                alert('Error logging attack');
+                console.error('Error:', error);
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS("particles-js", {
+          "particles": {
+            "number": {
+              "value": 80,
+              "density": { "enable": true, "value_area": 800 }
+            },
+            "color": { "value": "#00ffff" },
+            "shape": { "type": "circle" },
+            "opacity": { "value": 0.5 },
+            "size": { "value": 3 },
+            "line_linked": {
+              "enable": true,
+              "distance": 150,
+              "color": "#00ffff",
+              "opacity": 0.4,
+              "width": 1
+            },
+            "move": { "enable": true, "speed": 3 }
+          },
+          "interactivity": {
+            "events": {
+              "onhover": { "enable": true, "mode": "grab" },
+              "onclick": { "enable": true, "mode": "push" }
+            }
+          }
+        });
+      </script>
+</body>
+</html>
